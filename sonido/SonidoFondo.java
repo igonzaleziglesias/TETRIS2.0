@@ -17,7 +17,7 @@ public class SonidoFondo extends Thread {
 //            File a = new File("/home/local/DANIELCASTELAO/igonzaleziglesias/Escritorio/tetris.wav");//pc clase
                 sonido.open(AudioSystem.getAudioInputStream(a));
                 sonido.start();
-                Thread.sleep(5000); // (30segundos)
+                Thread.sleep(25500); // (30segundos)
                 sonido.close();
             } catch (Exception tipoError) {
                 System.out.println("" + tipoError);

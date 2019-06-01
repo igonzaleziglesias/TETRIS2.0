@@ -1,6 +1,7 @@
 package tetris;
 
-import excepciones.excepcionSql;
+import easterEgg.Egg;
+import excepciones.ExcepcionSql;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -245,11 +246,11 @@ SonidoFondo son = new SonidoFondo();
                 } while ((nick.equalsIgnoreCase(" ")) || (nick.equalsIgnoreCase("")) || (nick.equalsIgnoreCase("  ")) || (nick.equalsIgnoreCase("   ")));
                 try {
                     insertar.insert(INDEX, nick, marcador.getText());//insertar puntuacion en la base de datos
-                } catch (excepcionSql e) {
+                } catch (ExcepcionSql e) {
 
                 }
-                metodos.cargarTabla.vaciarTabla(Interfaz.tabla);
-                metodos.cargarTabla.mostrarTablas(Interfaz.tabla);
+                metodos.CargarTabla.vaciarTabla(Interfaz.tabla);
+                metodos.CargarTabla.mostrarTablas(Interfaz.tabla);
             } else {
                 JOptionPane.showMessageDialog(null, "PARA QUE JUEGAS? (--_--)");
             }
@@ -318,6 +319,11 @@ SonidoFondo son = new SonidoFondo();
                 marcador.setText(String.valueOf(numLineasBorradas * 30));
             }
             finalizoQuitarFilas = true;
+//            System.out.println(numeroLineasEnterasPorTurnos);
+            if (numeroLineasEnterasPorTurnos==4){
+//                pauseGame();
+                Egg huevo = new Egg();
+            }
             piezaActual.establecerPieza(PiezasTetris.NoPieza);
             repaint();
 

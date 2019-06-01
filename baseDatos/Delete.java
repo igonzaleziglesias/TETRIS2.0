@@ -1,6 +1,6 @@
 package baseDatos;
 
-import excepciones.excepcionSql;
+import excepciones.ExcepcionSql;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -20,7 +20,7 @@ public class Delete {
         return conn;
     }
 
-    public void deleteAll() throws excepcionSql {
+    public void deleteAll() throws ExcepcionSql {
         String sql = "DELETE FROM puntuacion";
         int exception;
         try (Connection conn = this.connect();
@@ -35,7 +35,7 @@ public class Delete {
             exception=1;
         }
                 if (exception==1){
-            throw new excepcionSql("Fallo el borrado");
+            throw new ExcepcionSql("Fallo el borrado");
         }
     }
 

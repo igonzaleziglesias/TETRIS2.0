@@ -1,14 +1,14 @@
 package tetris;
 
 import baseDatos.Alumno;
-import excepciones.excepcionSql;
+import excepciones.ExcepcionSql;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import static tetris.App.INDEX;
 
 public class Menu {
 
-    public static void crearMenu() throws excepcionSql {
+    public static void crearMenu() throws ExcepcionSql {
         int eleccion;
 
         String[] elecciones = {"Jugar", "Salir"};//mensaje final de partida
@@ -30,7 +30,7 @@ public class Menu {
                 baseDatos.Connect.connect();
                 try {
                     baseDatos.Create.createTable();
-                } catch (excepcionSql e) {
+                } catch (ExcepcionSql e) {
 
                 }
 
@@ -41,7 +41,7 @@ public class Menu {
 //     delete.deleteAll(); //USAR PARA BORRAR LA BASE DE DATOS ENTERA
                 try {
                     datos = quest.selectAll();
-                } catch (excepcionSql e) {
+                } catch (ExcepcionSql e) {
 
                 }
 //        System.out.println(datos.size());

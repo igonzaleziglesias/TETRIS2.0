@@ -1,6 +1,6 @@
 package baseDatos;
 
-import excepciones.excepcionSql;
+import excepciones.ExcepcionSql;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -8,7 +8,7 @@ import java.sql.Statement;
 
 public class Create {
 
-    public static void createTable() throws excepcionSql {
+    public static void createTable() throws ExcepcionSql {
 
         String url = "jdbc:sqlite:puntuacion.db";
         int exception;
@@ -28,7 +28,7 @@ public class Create {
             exception = 1;
         }
         if (exception == 1) {
-            throw new excepcionSql("Fallo la creación de la tabla");
+            throw new ExcepcionSql("Fallo la creación de la tabla");
         }
     }
 

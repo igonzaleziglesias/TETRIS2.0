@@ -1,6 +1,6 @@
 package baseDatos;
 
-import excepciones.excepcionSql;
+import excepciones.ExcepcionSql;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -21,7 +21,7 @@ public class Insert {
         return conn;
     }
 
-    public void insert(int id, String name, String puntos) throws excepcionSql {
+    public void insert(int id, String name, String puntos) throws ExcepcionSql {
         String sql = "INSERT INTO puntuacion(name,puntos,id) VALUES(?,?,?)";
         int exception;
         try (Connection conn = this.connect();
@@ -38,7 +38,7 @@ public class Insert {
             exception = 1;
         }
         if (exception == 1) {
-            throw new excepcionSql("Fallo la inserción");
+            throw new ExcepcionSql("Fallo la inserción");
         }
 
     }

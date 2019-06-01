@@ -1,6 +1,6 @@
 package baseDatos;
 
-import excepciones.excepcionSql;
+import excepciones.ExcepcionSql;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -27,7 +27,7 @@ public class Quest {
         return conn;
     }
 
-    public ArrayList<Alumno> selectAll() throws excepcionSql {
+    public ArrayList<Alumno> selectAll() throws ExcepcionSql {
         String sql = "SELECT name, puntos, id FROM puntuacion";
         int exception;
         try (Connection conn = this.connect();
@@ -50,7 +50,7 @@ public class Quest {
         }
 
         if (exception == 1) {
-            throw new excepcionSql("Fallo la seleccion");
+            throw new ExcepcionSql("Fallo la seleccion");
         }
         try {
             this.connect().close();
