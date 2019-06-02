@@ -28,6 +28,7 @@ public class Ventana extends JPanel implements ActionListener {
     boolean finalizoQuitarFilas = false;
     boolean empezada = false;
     boolean pausa = false;
+    boolean pascua=true;
     int numLineasBorradas = 0;
     int posicionX = 0;
     int posicionY = 0;
@@ -321,7 +322,8 @@ public class Ventana extends JPanel implements ActionListener {
             }
             finalizoQuitarFilas = true;
 //            System.out.println(numeroLineasEnterasPorTurnos);
-            if (numeroLineasEnterasPorTurnos == 4) {
+            if ((numeroLineasEnterasPorTurnos == 4)&&(pascua)) {
+                pascua=false;
                 pauseGame();
                 Egg huevo = new Egg();
                 pauseGame();
