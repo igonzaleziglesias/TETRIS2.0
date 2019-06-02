@@ -16,7 +16,6 @@ import javax.swing.Timer;
 import libreria.Pedir;
 import sonido.SonidoFondo;
 import static tetris.App.INDEX;
-import static tetris.Menu.crearMenu;
 import tetris.Piezas.PiezasTetris;
 
 public class Ventana extends JPanel implements ActionListener {
@@ -37,15 +36,15 @@ public class Ventana extends JPanel implements ActionListener {
     Piezas piezaActual;
     PiezasTetris[] piezas;
     int velocidad;
-SonidoFondo son = new SonidoFondo();
-    
+    SonidoFondo son = new SonidoFondo();
+
     public Ventana(CrearEntorno juego) {//define la ventana de juego
         setBounds(0, 0, 250, 600);
         setFocusable(true);
         piezaActual = new Piezas();
         velocidad = niveles.ElegirNivel.nivel();
-        
-         son.start();
+
+        son.start();
         timer = new Timer(velocidad, this);
         timer.start();
 
@@ -53,7 +52,7 @@ SonidoFondo son = new SonidoFondo();
         estado = juego.getEstado();
         piezas = new PiezasTetris[anchoTablero * altoTablero];
         addKeyListener(new InteraccionTeclas());
-        clear();
+        resetPieza();
 
     }
 
@@ -91,7 +90,7 @@ SonidoFondo son = new SonidoFondo();
         empezada = true;
         finalizoQuitarFilas = false;
         numLineasBorradas = 0;
-        clear();
+        resetPieza();
 
         nuevaPieza();
         timer.start();
@@ -117,7 +116,7 @@ SonidoFondo son = new SonidoFondo();
     }
 
     @Override
-    public void paint(Graphics g) { //clase para dar color
+    public void paint(Graphics g) { //clase para dar color y colocar la pieza en el tablero
         super.paint(g);
         Color col = new Color(255, 255, 255);//color gris
         g.drawLine(0, 20, 245, 20);//pinta una linea en la parte superior de la ventana
@@ -145,6 +144,12 @@ SonidoFondo son = new SonidoFondo();
         }
     }
 
+    private void BajarPiezaRapido() {//baja la pieza a mas velocidad a la parte inferior del tablero
+        if (!Mover(piezaActual, posicionX, posicionY - 1)) {
+            BajarPieza1posicion();
+        }
+    }
+
     private void BajarPiezaAlInstante() {//desplaza la pieza automaticamente a la parte inferior del tablero
         int newY = posicionY;
         while (newY > 0) {
@@ -156,29 +161,9 @@ SonidoFondo son = new SonidoFondo();
         BajarPieza1posicion();
     }
 
-    private void BajarPiezaRapido() {//baja la pieza a mas velocidad a la parte inferior del tablero
-        if (!Mover(piezaActual, posicionX, posicionY - 1)) {
-            BajarPieza1posicion();
-        }
-    }
-
-    private void clear() {//dejar la pieza vacia
+    private void resetPieza() {//dejar la pieza vacia
         for (int i = 0; i < altoTablero * anchoTablero; ++i) {
             piezas[i] = PiezasTetris.NoPieza;
-        }
-    }
-
-    private void BajarPieza1posicion() {//hace que la pieza se desplace una posicion hacia abajo
-        for (int i = 0; i < 4; ++i) {
-            int x = posicionX + piezaActual.x(i);
-            int y = posicionY - piezaActual.y(i);
-            piezas[(y * anchoTablero) + x] = piezaActual.getPieza();
-        }
-
-        BorrarLineas();
-
-        if (!finalizoQuitarFilas) {
-            nuevaPieza();
         }
     }
 
@@ -190,14 +175,16 @@ SonidoFondo son = new SonidoFondo();
                 timer.stop();
                 velocidad = velocidad - 200;
                 timer = new Timer(velocidad, this);
-                System.out.println(velocidad);
+
+                System.out.println("Velocidad: " + velocidad);
                 timer.start();
             }
             if ((contador == 20) && (velocidad - 200 > 0)) {
                 timer.stop();
                 velocidad = velocidad - 200;
                 timer = new Timer(velocidad, this);
-                System.out.println(velocidad);
+
+                System.out.println("Velocidad: " + velocidad);
                 timer.start();
             }
         }
@@ -206,7 +193,7 @@ SonidoFondo son = new SonidoFondo();
                 timer.stop();
                 velocidad = velocidad - 200;
                 timer = new Timer(velocidad, this);
-                System.out.println(velocidad);
+                System.out.println("Velocidad: " + velocidad);
                 timer.start();
             }
         }
@@ -215,7 +202,7 @@ SonidoFondo son = new SonidoFondo();
             timer.stop();
             velocidad = velocidad - 100;
             timer = new Timer(velocidad, this);
-            System.out.println(velocidad);
+            System.out.println("Velocidad: " + velocidad);
             timer.start();
         }
 //        //Demasiado RAPIDO
@@ -238,8 +225,8 @@ SonidoFondo son = new SonidoFondo();
 
             baseDatos.Insert insertar = new baseDatos.Insert();
             String nick;
-            son.cambiarEstado();
-            if (marcador.getText() != "0") {
+            son.cambiarEstado();//finaliar sonido
+            if (marcador.getText() != "0") {//obtener puntuacion
 
                 do {
                     nick = Pedir.pedirString("Game Over\nNick: ");
@@ -263,6 +250,20 @@ SonidoFondo son = new SonidoFondo();
 //            ex.getMessage();
 //        }
 //            
+        }
+    }
+
+    private void BajarPieza1posicion() {//hace que la pieza se desplace una posicion hacia abajo
+        for (int i = 0; i < 4; ++i) {
+            int x = posicionX + piezaActual.x(i);
+            int y = posicionY - piezaActual.y(i);
+            piezas[(y * anchoTablero) + x] = piezaActual.getPieza();
+        }
+
+        BorrarLineas();
+
+        if (!finalizoQuitarFilas) {
+            nuevaPieza();
         }
     }
 
@@ -320,9 +321,10 @@ SonidoFondo son = new SonidoFondo();
             }
             finalizoQuitarFilas = true;
 //            System.out.println(numeroLineasEnterasPorTurnos);
-            if (numeroLineasEnterasPorTurnos==4){
-//                pauseGame();
+            if (numeroLineasEnterasPorTurnos == 4) {
+                pauseGame();
                 Egg huevo = new Egg();
+                pauseGame();
             }
             piezaActual.establecerPieza(PiezasTetris.NoPieza);
             repaint();
@@ -332,7 +334,7 @@ SonidoFondo son = new SonidoFondo();
         }
     }
 
-    private void pintarPiezas(Graphics g, int x, int y, PiezasTetris pieza) {
+    private void pintarPiezas(Graphics g, int x, int y, PiezasTetris pieza) {//generar la pieza
         Color colors[] = {//definimos todos los colores, cada color se corresponde a una pieza (mismo orden que en el enum)
             new Color(0, 0, 0),
             new Color(230, 0, 0),//rojo->rojo mas intenso Z
